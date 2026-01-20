@@ -1,0 +1,109 @@
+
+
+.btn{
+    width: 90px;
+    height: 48px;
+    border-radius: 5px;
+    border: none;
+    font-size: 17px;
+    transition: all .15s;
+    &.primary {
+        background: #047bb6;
+        color: #fff;
+    }
+    &.danger {
+        background: #555555;
+        color: #fff;
+    }
+    &.border-primary{
+        border: 1px solid #047bb6;
+        color: #047bb6;
+        background: #fff;
+    }
+    &.blue {
+        background: #0758ac;
+        color: #fff;
+    }
+    &:hover{
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    &.cancle{
+        background: #f0f0f0;
+        border: 1px solid #d8d8d8;
+    }
+    &.small{
+        height: 36px;
+        font-size: 15px;
+    }
+    &.border{
+        border: 1px solid #d8d8d8;
+    }
+}
+
+.round--btn {
+    width: 106px;
+    height: 42px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-group{
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 20px;
+    &.mt0{
+        margin-top: 0;
+    }
+    &.center{
+        justify-content: center;
+    }
+    &.between{
+        justify-content: space-between;
+    }
+    button{
+        & + button{
+            margin-left: 5px;
+        }
+    }    
+}
+.btn-refresh{
+    width: 48px;
+    height: 48px;
+    background-image: url("@/assets/images/dash/ico-refresh.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 5px;
+    border: 1px solid #c6c6c6;
+    background-color: #fff;
+}
+.btn-down{
+    width: 135px;
+    background-color: #023f5e;  
+    color:#fff; 
+    font-size: 15px;
+    text-align: left;
+    padding-left: 45px;
+    background-image: url("@/assets/images/dash/ico-down.png");
+    background-repeat: no-repeat;
+    background-position: 20px center;
+}
+
+.mt0{
+    margin-top: 0 !important;
+}
+.mb0{
+    margin-bottom: 0 !important;
+}
+.mb10{
+    margin-bottom: 10px !important;
+}
+.mb20{
+    margin-bottom: 20px !important;
+}
+
+.block{
+    width: 100%;
+}

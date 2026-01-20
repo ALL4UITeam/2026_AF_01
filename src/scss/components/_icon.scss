@@ -1,0 +1,35 @@
+// 아이콘 mixin 정의
+@mixin icon-style($icon-url, $width: 2.4rem, $height: 2.4rem) {
+    display: inline-block;
+    background-image: url($icon-url);
+    width: $width;
+    height: $height;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+}
+
+.ico-no{
+    @include icon-style('@/assets/images/dash/ico-tbl-no.png', 20px, 18px);
+}
+.ico-list{
+    @include icon-style('@/assets/images/dash/ico-tbl-list.png', 20px, 20px);
+}
+.ico-call{
+    @include icon-style('@/assets/images/dash/ico-tbl-call.png', 20px, 20px);
+}
+.ico-car{
+    @include icon-style('@/assets/images/dash/ico-tbl-car.png', 20px, 20px);
+}
+.ico-cars{
+    @include icon-style('@/assets/images/dash/ico-tbl-cars.png', 20px, 20px);
+}
+.ico-address{
+    @include icon-style('@/assets/images/dash/ico-tbl-address.png', 20px, 20px);
+}
+.ico-ceo{
+    @include icon-style('@/assets/images/dash/ico-tbl-ceo.png', 20px, 20px);
+}
+.ico-empty{
+    @include icon-style('@/assets/images/dash/ico-tbl-empty.png', 20px, 20px);
+}

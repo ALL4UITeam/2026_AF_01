@@ -1,0 +1,433 @@
+$sidebar-w: 260px;
+$topbar-h: 64px;
+
+.topbar {
+    grid-area: topbar;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    height: $topbar-h;
+    background: #fff;
+    box-shadow:  0 1px 0 rgba(17, 24, 39, .06);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    padding: 0 16px;
+    .brand__logo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 0;
+    }
+    &__actions {
+        justify-self: end;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+    }
+    .icon-notice{
+        position: relative;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        background-image: url("@/assets/images/dash/ico-notice.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        border: none;
+        span{
+            position: absolute;
+            right: -2px;
+            top: -2px;
+            font-size: 7px;
+            width: 14px;
+            height: 14px;
+            line-height: 14px;
+            border-radius: 50%;
+            background: #0758ac;
+            color:#fff;
+        }
+    }
+    .avatar {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 16px;
+        border-radius: 12px;
+        background: #f0f0f0;
+        font-weight: 300;
+        margin-right: 14px;
+        &__circle {
+            width: 18px;
+            height: 18px;
+            background-image: url(@/assets/images/dash/ico-avatar.png);
+        }
+        &__label {
+            font-size: 13px;
+            color: #1d1d1d;
+        }
+    }
+}
+
+.burger-btn{
+    cursor: pointer;
+    padding: 7px 1px;
+}
+.burger {
+    width: 20px;
+    height: 2px;
+    background: #111827;
+    position: relative;
+    display: block;
+    
+    &::before,
+    &::after{
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: currentColor;
+    }
+    &::before{
+        top: -6px;
+    }
+    &::after{
+        top: 6px;
+    }
+}
+
+/* ====== Sidenav ====== */
+.sidenav {
+    grid-area: sidenav;
+    position: relative;
+    background: #0a529d;
+    color: #fff;
+    font-weight: 300;
+    &__logo {
+        position: relative;
+        text-align: center;
+		padding: 60px 0 30px 0;
+        margin: 0 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.15);
+        &:after{
+            z-index: 21;
+            position: absolute;
+            right: -64px;
+            top: 0;
+            display: block;
+            content: "";
+            width: 44px;
+            height: 53px;
+            background:url('@/assets/images/dash/nav-after.png') no-repeat center;
+        }   
+    }
+    &__nav {
+        display: grid;
+        padding-top: 35px;
+        padding-left: 20px;
+        padding-bottom: 20px;
+        gap: 35px;
+        height: calc(100vh - 320px);
+    }
+    .nav-sec,
+    .nav-sub{
+        border-radius: 12px;
+        >summary {
+            position: relative;
+            
+            &::after {
+                position: absolute;
+                top: 45%;
+                content: "";
+                margin-left: auto;
+                width: 8px;
+                height: 8px;
+                border: 1.5px solid #fff;
+                border-left: 0;
+                border-top: 0;
+                transform: rotate(-45deg) translateY(-50%);
+                transition: transform .18s ease;
+            }
+        }
+        &[open]>summary::after {
+            transform: rotate(45deg) translateY(-50%);
+        }
+    }
+    .nav-sec{
+        transition: transform .18s ease;
+        &>summary{
+            &::after{
+                content: "";            
+                right: 40px;
+                width: 8px; height: 8px;
+                margin-left: auto;
+                border: 1.5px solid #fff; border-left: 0; border-top: 0;
+                transform: rotate(-45deg) translateY(-50%);
+                transition: transform .18s ease, border-color .18s ease;
+                opacity: .9;
+            }
+            span{
+                z-index: 2;
+                position: relative;
+                display: flex;
+                gap:16px;
+                align-items: center;
+                font-size: 17px;
+                border-radius: 25px 0 0 25px;
+                height: 50px;
+                padding-left: 20px;
+                color:rgba(255,255,255,0.8);
+                &>i{
+                    width: 16px;
+                    display: inline-block;
+                    background-repeat: no-repeat;
+                }
+            }
+            
+            &.sec01{
+                i{
+                    height: 13px;
+                    background-image: url("@/assets/images/dash/ico-nav-sec01.png");
+                }
+            }
+            &.sec02{
+                i{
+                    height: 19px;
+                    background-image: url("@/assets/images/dash/ico-nav-sec02.png");
+                }
+            }
+            &.sec03{
+                i{
+                    height: 16px;
+                    background-image: url("@/assets/images/dash/ico-nav-sec03.png");
+                }
+            }
+            &.sec04{
+                i{
+                    height: 16px;
+                    background-image: url("@/assets/images/dash/ico-nav-sec04.png");
+                }
+            }
+            &.sec05{
+                i{
+                    height: 18px;
+                    background-image: url("@/assets/images/dash/ico-nav-sec05.png");
+                }
+            }
+            & + .nav-sub{
+                margin-top: 20px;
+            }
+        }
+        &[open]{
+            padding-bottom: 30px;
+            &>summary{
+                span{
+                    background: #f6f7fb;
+                    color:#0a529d;
+                    
+                }
+                &:after{
+                    z-index: 10;
+                    border-color: #0a529d;
+                }
+                &.sec01{
+                    i{
+                        background-image: url("@/assets/images/dash/ico-nav-sec01-on.png");
+                    }
+                }
+                &.sec02{
+                    i{
+                        background-image: url("@/assets/images/dash/ico-nav-sec02-on.png");
+                    }
+                }
+                &.sec03{
+                    i{
+                        background-image: url("@/assets/images/dash/ico-nav-sec03-on.png");
+                    }
+                }
+                &.sec04{
+                    i{
+                        background-image: url("@/assets/images/dash/ico-nav-sec04-on.png");
+                    }
+                }
+                &.sec05{
+                    i{
+                        background-image: url("@/assets/images/dash/ico-nav-sec05-on.png");
+                    }   
+                }
+            }
+            .round-top,
+            .round-bottom {
+                position: absolute;
+                right: 0;
+                width: 30px;
+                height: 30px;
+                background: #f6f7fb;
+            }
+            .round-top   {
+                top: -30px;
+                &:after{
+                    display: block;
+                    content: "";
+                    width: 30px;
+                    height: 30px;
+                    background: #0a529d;
+                    border-radius: 0 0 100% 0;
+                }
+                
+            }
+            .round-bottom{
+                bottom:-30px;
+                &:after{
+                    display: block;
+                    content: "";
+                    width: 30px;
+                    height: 30px;
+                    background: #0a529d;
+                    border-radius: 0 100% 0 0;
+                }
+            }
+        }
+        .nav-sub {
+            margin-left: 32px;
+            >summary {
+                display: flex;
+                align-items: center;
+                gap:7px;
+                width: 166px;
+                font-size: 15px;
+                height: 35px;
+                padding-left: 20px;
+                border-radius: 18px;
+                color:rgba(255,255,255,0.8);
+                &:after{
+                    right: 20px;
+                }
+                &:before{
+                    display: block;
+                    content:'';
+                    width: 2px;
+                    height: 2px;
+                    background: #fff;
+                }
+            }
+            &[open]{
+                >summary{
+                    background: #03386e;
+                    
+                }
+            }
+            & + .nav-sub{
+                margin-top: 3px;
+            }
+        }
+        .nav-list {
+            position: relative;
+            list-style: none;
+            padding: 6px 4px 10px 8px;
+            margin: 0;
+            display: grid;
+            gap: 2px;
+            padding: 10px 0 10px 30px; 
+            &:after{
+                position: absolute;
+                left: 30px;
+                top: 10px;
+                content:'';
+                width: 1px;
+                height: calc(100% - 20px);
+                background: rgba(255,255,255,0.2);
+            }
+            li {
+                position: relative;
+                & + li{
+                    margin-top: 15px;
+                } 
+            }
+            a {
+                display: block;
+                border-radius: 10px;
+                padding-left: 15px;
+                font-size: 13px;
+                color: #a5c7e4;
+                text-decoration: none;
+                &::before {
+                    position: absolute;
+                    left: 8px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    opacity: .7;
+                    font-size: 14px;
+                }
+                &:hover {
+                    color: #fff;
+                }
+            }
+            .is-active>a {
+                color: #fff;
+            }
+        }
+    }
+    .nav-foot{
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        right:20px;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 20px;
+        dl{
+            position: relative;
+            padding-left: 32px;
+            dt{
+                font-size: 17px;
+                color:#d5dde8;
+                letter-spacing: 1px;
+                margin-bottom: 10px;
+                line-height: 1;
+            }
+            dd{
+                font-size: 17px;
+                color:#d5dde8;
+                font-size: 15px;
+                line-height: 1;
+            }
+            &:after{
+                position: absolute;
+                display: block;
+                left: 0;
+                top: 0;
+                content:'';
+                width: 17px;
+                height: 17px;
+                background-repeat: no-repeat;
+            }
+            &.call{
+                margin-bottom: 15px;
+                &:after{ 
+                    background-image: url("@/assets/images/common/ico-footcall.png");
+                }
+            }
+            &.mail{
+                &:after{ 
+                    background-image: url("@/assets/images/common/ico-footmail.png");
+                }
+            }
+        }
+    }
+}
+
+/* details/summary 기본 마커 제거 */
+details>summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+
+

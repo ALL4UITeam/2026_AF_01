@@ -1,0 +1,116 @@
+/* Badges */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 15px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 12px;
+    letter-spacing: .2px;
+    border: 1px solid #e3e3e3;
+    background: #fff;
+    line-height: 1;
+    color: #374151;
+    &--muted {
+        color: #848484;
+    }
+    &--blue {
+        border-color: var(--primary-color);
+        background: #dcedf4;
+        color: var(--primary-color);
+    }
+    &--warn {
+        border-color: #ffe0a6;
+        background: #fff7ed;
+        color: #f59e0b;
+    }
+    &--purple{
+        border-color: #8080e0;
+        background: #e8e7f7;
+        color:#8080e0;
+    }
+    &--green{
+        border-color: #56946f;
+        background: #eafff0;
+        color:#56946f;
+    }
+    &--red {
+        border-color: #fb5852;
+        background: #fee9e9;
+        color: #fb5852;
+    }
+    &--round{
+        border-radius: 99px;
+        display: inline;
+    }
+}
+
+.label{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 15px;
+    padding: 7px 8px;
+    border-radius: 99px;
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: .2px;
+    background: #fff;
+    line-height: 1;
+    .dot{
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background: #000;
+        border-radius: 50%;
+    }
+    &.accident{
+        background: #fef1f8;
+        .dot{
+            background: #e252a7;
+        }
+    }
+    &.breakdown{
+        background: #fff2cf;
+        .dot{
+            background: #f3c953;
+        }
+    }
+    &.emergency{
+        background: #eafff0;
+        .dot{
+            background: #56946f;
+        }
+    }
+    &.accident{
+        background: #e8e7f7;
+        .dot{
+            background: #8080e0;
+        }
+    }
+    &.construction{
+        background: #ffebd6;
+        .dot{
+            background: #fe992f;
+        }
+    }
+    &.closure{
+        background: #dff0f7;
+        .dot{
+            background: #60b5d4;
+        }
+    }
+    &.protest{
+        background: #dfe4f8;
+        .dot{
+            background: #607ddb;
+        }
+    }
+    &.stop{
+        background: #fff1f1;
+        .dot{
+            background: #e74d57;
+        }
+    }
+}
