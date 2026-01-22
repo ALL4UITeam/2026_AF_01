@@ -12,6 +12,17 @@ document.querySelectorAll('.side-nav__toggle').forEach(toggle => {
   });
 });
 
+const sideNav = document.querySelector('.side-nav');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 120) {
+    sideNav.classList.add('is-stuck');
+  } else {
+    sideNav.classList.remove('is-stuck');
+  }
+});
+io.observe(sentinel);
+
 //Modal
 document.addEventListener("DOMContentLoaded", () => {
   function openModal(id) {

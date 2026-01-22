@@ -4,7 +4,9 @@
 .side-nav_wrap{
     position: sticky;
     top: 20px;
+    align-self: start;
 }
+
 .side-nav {
     align-self: start;
     height: calc(100vh - #{$header-h} - 60px);
@@ -14,6 +16,10 @@
     background-image: url('@/assets/images/common/nav/bg.png');
     background-position: 0 bottom;
     background-repeat: no-repeat;
+    transition: all 0.3s;
+    &.is-stuck{
+        height: calc(100vh - 40px);
+    }
 }
 .side-nav__inner {
     height: 100%;
@@ -121,5 +127,8 @@
         position: relative;
         top: auto;
         height: auto;
+    }
+    .side-nav{
+        background-size: contain;
     }
 }

@@ -39,7 +39,7 @@ export default defineConfig(({ mode }) => {
   return {
     root: 'src',
     base: basePath,
-    publicDir: 'public',
+    publicDir: '../public',
     build: {
       outDir: 'dist',
       emptyOutDir: true,
