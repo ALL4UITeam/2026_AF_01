@@ -1,27 +1,21 @@
-
-import { buttonClick, toggleTab } from '../common/ui.js'
+import '/scss/main.scss'
 
 // sideNav
-document.querySelectorAll('.side-nav__toggle').forEach(toggle => {
-  toggle.addEventListener('click', () => {
-    const item = toggle.closest('.side-nav__item');
-    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+document.querySelectorAll(".side-nav__toggle").forEach((toggle) => {
+  toggle.addEventListener("click", () => {
+    const item = toggle.closest(".side-nav__item");
+    const expanded = toggle.getAttribute("aria-expanded") === "true";
 
-    toggle.setAttribute('aria-expanded', String(!expanded));
-    item.classList.toggle('is-open', !expanded);
+    toggle.setAttribute("aria-expanded", String(!expanded));
+    item.classList.toggle("is-open", !expanded);
   });
 });
 
-const sideNav = document.querySelector('.side-nav');
+const sideNav = document.querySelector(".side-nav");
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 120) {
-    sideNav.classList.add('is-stuck');
-  } else {
-    sideNav.classList.remove('is-stuck');
-  }
+window.addEventListener("scroll", () => {
+  sideNav.classList.toggle("is-stuck", window.scrollY > 120);
 });
-io.observe(sentinel);
 
 //Modal
 document.addEventListener("DOMContentLoaded", () => {
@@ -35,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.openModal = openModal;
   window.closeModal = closeModal;
 
-  // form 모달이 많아 불편해서 제거 
+  // form 모달이 많아 불편해서 제거
   // 배경 클릭 시 닫기
   // document.addEventListener("click", function(e) {
   //   if (e.target.classList.contains("modal")) {
@@ -44,15 +38,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // });
 
   // ESC 키로 닫기
-  document.addEventListener("keydown", function(e) {
+  document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
-      document.querySelectorAll(".modal.active").forEach(modal => {
+      document.querySelectorAll(".modal.active").forEach((modal) => {
         modal.classList.remove("active");
       });
     }
   });
-});	
-
+});
 
 // Tab
 document.addEventListener("DOMContentLoaded", () => {
@@ -60,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initTabGroup(groupEl) {
-  const tabs   = groupEl.querySelectorAll(".tab--item");
+  const tabs = groupEl.querySelectorAll(".tab--item");
   const panels = groupEl.querySelectorAll(".tab--panel");
 
   groupEl.addEventListener("click", (e) => {
@@ -75,7 +68,6 @@ function initTabGroup(groupEl) {
 
     panels.forEach((panel) => {
       panel.classList.toggle("active", panel.id === targetId);
-    
     });
   });
 }
@@ -84,12 +76,12 @@ function initTabGroup(groupEl) {
 document.addEventListener("DOMContentLoaded", function () {
   const toggles = document.querySelectorAll("[data-toggle]");
 
-  toggles.forEach(toggle => {
+  toggles.forEach((toggle) => {
     toggle.addEventListener("click", () => {
       const group = toggle.dataset.group;
 
       if (group) {
-        document.querySelectorAll(`[data-group="${group}"]`).forEach(el => {
+        document.querySelectorAll(`[data-group="${group}"]`).forEach((el) => {
           el.classList.remove("active");
         });
         toggle.classList.add("active");
@@ -100,45 +92,41 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-//accordion 
+//accordion
 const accItems = document.querySelectorAll(".acc-item");
 
-  accItems.forEach((item) => {
-    const btn = item.querySelector(".acc-btn");
-    const panel = item.querySelector(".acc-panel");
+accItems.forEach((item) => {
+  const btn = item.querySelector(".acc-btn");
+  const panel = item.querySelector(".acc-panel");
 
-    btn.addEventListener("click", () => {
-      const isActive = item.classList.contains("is-active");
+  btn.addEventListener("click", () => {
+    const isActive = item.classList.contains("is-active");
 
-      // 다른 항목 닫기
-      accItems.forEach((other) => {
-        if (other !== item) {
-          other.classList.remove("is-active");
-          const otherPanel = other.querySelector(".acc-panel");
-          otherPanel.style.height = 0;
-        }
-      });
-
-      // 현재 항목 토글
-      if (isActive) {
-        // 닫기
-        item.classList.remove("is-active");
-        panel.style.height = 0;
-      } else {
-        // 열기
-        item.classList.add("is-active");
-        panel.style.height = panel.scrollHeight + "px"; // 실제 내용 높이 계산
+    // 다른 항목 닫기
+    accItems.forEach((other) => {
+      if (other !== item) {
+        other.classList.remove("is-active");
+        const otherPanel = other.querySelector(".acc-panel");
+        otherPanel.style.height = 0;
       }
     });
+
+    // 현재 항목 토글
+    if (isActive) {
+      // 닫기
+      item.classList.remove("is-active");
+      panel.style.height = 0;
+    } else {
+      // 열기
+      item.classList.add("is-active");
+      panel.style.height = panel.scrollHeight + "px"; // 실제 내용 높이 계산
+    }
   });
+});
 
-
-const drake = dragula(
-  [document.getElementById("dragArea"), ],
-  {
-    mirrorContainer: document.body,
-  }
-);
+const drake = dragula([document.getElementById("dragArea")], {
+  mirrorContainer: document.body,
+});
 
 drake.on("cloned", function (clone, original, type) {
   if (type === "mirror") {
@@ -154,26 +142,25 @@ drake.on("cloned", function (clone, original, type) {
   }
 });
 
-
-// 테이블화 - 스크롤 대응 
-const listheads = document.querySelectorAll('.listhead');
-const listbodies = document.querySelectorAll('.listbody');
+// 테이블화 - 스크롤 대응
+const listheads = document.querySelectorAll(".listhead");
+const listbodies = document.querySelectorAll(".listbody");
 
 listheads.forEach((head, i) => {
   const body = listbodies[i];
 
-  if (!body) return; 
+  if (!body) return;
 
-  const headSpans = head.querySelectorAll('span');
-  const widths = Array.from(headSpans).map(span =>
-    span.style.width || window.getComputedStyle(span).width
+  const headSpans = head.querySelectorAll("span");
+  const widths = Array.from(headSpans).map(
+    (span) => span.style.width || window.getComputedStyle(span).width,
   );
 
-  const gridTemplate = widths.join(' ');
+  const gridTemplate = widths.join(" ");
 
-  const rows = body.querySelectorAll('.board li');
+  const rows = body.querySelectorAll(".board li");
 
-  rows.forEach(row => {
+  rows.forEach((row) => {
     row.style.display = "grid";
     row.style.gridTemplateColumns = gridTemplate;
   });

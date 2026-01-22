@@ -43,6 +43,10 @@ document.querySelectorAll(".side-nav__toggle").forEach((toggle) => {
     item.classList.toggle("is-open", !expanded);
   });
 });
+const sideNav = document.querySelector(".side-nav");
+window.addEventListener("scroll", () => {
+  sideNav.classList.toggle("is-stuck", window.scrollY > 120);
+});
 document.addEventListener("DOMContentLoaded", () => {
   function openModal(id) {
     document.getElementById(id).classList.add("active");
@@ -116,12 +120,9 @@ accItems.forEach((item) => {
     }
   });
 });
-const drake = dragula(
-  [document.getElementById("dragArea")],
-  {
-    mirrorContainer: document.body
-  }
-);
+const drake = dragula([document.getElementById("dragArea")], {
+  mirrorContainer: document.body
+});
 drake.on("cloned", function(clone, original, type) {
   if (type === "mirror") {
     clone.innerHTML = "";

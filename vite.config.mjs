@@ -1,15 +1,10 @@
+import { defineConfig } from 'vite'
 import glob from 'fast-glob'
 import fs from 'fs'
 import path from 'path'
-import { defineConfig, loadEnv } from 'vite'
 import handlebars from 'vite-plugin-handlebars'
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
-  const projectName = 'vite-full-template'
-
-  const basePath = '/./'
-  
+export default defineConfig(() => {
 
   const pagesPath = path.resolve(__dirname, 'src')
   const pageFiles = fs.readdirSync(pagesPath)
@@ -20,13 +15,12 @@ export default defineConfig(({ mode }) => {
     const content = fs.readFileSync(filePath, 'utf-8')
     const lines = content.split('\n').slice(0, 10)
     const meta = {}
+
     lines.forEach(line => {
       const match = line.match(/@(\w+)\s+(.+?)\s*-->/)
-      if (match) {
-        const [, key, value] = match
-        meta[key] = value.trim()
-      }
+      if (match) meta[match[1]] = match[2].trim()
     })
+
     return {
       name: file,
       title: meta.pageTitle || path.basename(file, '.html'),
@@ -38,74 +32,54 @@ export default defineConfig(({ mode }) => {
 
   return {
     root: 'src',
-    base: basePath,
+    base: '/',
     publicDir: '../public',
+
     build: {
-      outDir: 'dist',
+      outDir: '../dist',
       emptyOutDir: true,
-      assetsInlineLimit: 0,
-      cssCodeSplit: true,
+      cssCodeSplit: false,
       minify: false,
+
       rollupOptions: {
         input: Object.fromEntries(
-          glob.sync('src/*.html').map(file => {
-            const name = path.basename(file, '.html')
-            return [name, path.resolve(__dirname, file)]
+          glob.sync('*.html', { cwd: 'src' }).map(file => {
+            return [file, path.resolve(__dirname, 'src', file)]
           })
         ),
+
         output: {
-          entryFileNames: 'assets/js/[name].js',
-          chunkFileNames: 'assets/js/[name].js',
-          assetFileNames: ({ name }) => {
-            if (/\.(css)$/.test(name ?? '')) {
-              return 'assets/css/[name][extname]'
+          entryFileNames: 'assets/[name].js',
+          chunkFileNames: 'assets/[name].js',
+          assetFileNames: (assetInfo) => {
+            const ext = assetInfo.name.split('.').pop()
+
+            if (ext === 'css') {
+              return 'assets/[name].css'
             }
-            if (/\.(png|jpe?g|gif|svg|webp)$/.test(name ?? '')) {
+
+            if (/(png|jpe?g|gif|svg|webp)/.test(ext)) {
               return 'assets/images/[name][extname]'
             }
+
             return 'assets/[name][extname]'
-          }
-        },
-        manualChunks(id) {
-          if (id.includes('/src/js/common/')) {
-            return 'common'
           }
         }
       }
     },
-    esbuild: {
-      minify: false
-    },
-    css: {
-      postcss: {
-        plugins: []
-      }
-    },
+
     resolve: {
       alias: {
         '@': path.resolve(__dirname, 'src')
       }
     },
+
     plugins: [
       handlebars({
         partialDirectory: path.resolve(__dirname, 'src/components'),
-        context: {
-          pages: pageMetaList
-        }
+        context: { pages: pageMetaList }
       }),
-      {
-        name: 'no-css-minify',
-        generateBundle(_, bundle) {
-          for (const fileName in bundle) {
-            if (fileName.endsWith('.css')) {
-              const chunk = bundle[fileName]
-              if ('code' in chunk) {
-                chunk.code = chunk.code.replace(/}/g, '}\n')
-              }
-            }
-          }
-        }
-      },
+
       {
         name: 'cleanup-html',
         closeBundle() {
@@ -119,8 +93,6 @@ export default defineConfig(({ mode }) => {
             content = content.replace(/<link rel="modulepreload" [^>]+?>/g, '')
             fs.writeFileSync(filePath, content)
           })
-
-          console.log('✅ 빌드 후 modulepreload & crossorigin 제거 완료')
         }
       }
     ]
