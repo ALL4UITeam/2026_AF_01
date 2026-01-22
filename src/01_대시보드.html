@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>화산 모니터링 시스템</title>
+    {{> meta}}
+</head>
+
+<body>
+
+    <div class="app">
+        {{> header}}
+        <div class="app-body">
+            {{> nav}}
+            <section class="dashboard-card">
+                <main class="app-main" >
+                    <div class="page">
+                        <header class="page__head">
+                            <h2 class="page__title">대시보드</h2>
+                        </header>
+
+                        <section class="dashboard">
+                            <div class="dashboard__grid">
+                                <section class="card card--lg">
+                                    <header class="card__head">
+                                        <h3 class="card__title">위성영상 현황</h3>
+                                        <button class="card__more" type="button" aria-label="더보기"></button>
+                                    </header>
+                                    <div class="card__body">
+                                        <div class="placeholder">콘텐츠 영역</div>
+                                    </div>
+                                </section>
+
+                                <section class="card card--side">
+                                    <header class="card__head">
+                                        <h3 class="card__title">활동 현황</h3>
+                                        <button class="card__more" type="button" aria-label="더보기"></button>
+                                    </header>
+                                    <div class="card__body">
+                                        <div class="placeholder placeholder--short">콘텐츠 영역</div>
+                                    </div>
+                                </section>
+
+                                <section class="card card--lg">
+                                    <header class="card__head">
+                                        <h3 class="card__title">위성영상 수집 추이</h3>
+                                        <button class="card__more" type="button" aria-label="더보기"></button>
+                                    </header>
+                                    <div class="card__body">
+                                        <div class="placeholder">콘텐츠 영역</div>
+                                    </div>
+                                </section>
+
+                                <section class="card card--side">
+                                    <header class="card__head">
+                                        <h3 class="card__title">최근활동</h3>
+                                        <button class="card__more" type="button" aria-label="더보기"></button>
+                                    </header>
+                                    <div class="card__body">
+                                        <div class="placeholder placeholder--tall">리스트 영역</div>
+                                    </div>
+                                </section>
+
+                                <section class="card card--full">
+                                    <header class="card__head">
+                                        <h3 class="card__title">보고서 현황</h3>
+                                        <button class="card__more" type="button" aria-label="더보기"></button>
+                                    </header>
+                                    <div class="card__body">
+                                        <div class="placeholder placeholder--short">하단 요약 영역</div>
+                                    </div>
+                                </section>
+                            </div>
+                        </section>
+                    </div>
+                </main>
+            </section>
+        </div>
+    </div>
+
+</body>

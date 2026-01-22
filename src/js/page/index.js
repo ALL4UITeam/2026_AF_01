@@ -2,28 +2,15 @@
 import { buttonClick, toggleTab } from '../common/ui.js'
 
 // sideNav
-document.querySelectorAll('.nav-sec').forEach((sec) => {
-		const summary = sec.querySelector('summary');
-		if (!summary) return;
+document.querySelectorAll('.side-nav__toggle').forEach(toggle => {
+  toggle.addEventListener('click', () => {
+    const item = toggle.closest('.side-nav__item');
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
 
-		const addCaps = () => {
-			if (!summary.querySelector('.round-top')) {
-				summary.insertAdjacentHTML(
-					'afterbegin',
-					'<em class="round-top" aria-hidden="true"></em>' +
-					'<em class="round-bottom" aria-hidden="true"></em>'
-				);
-			}
-		};
-		const removeCaps = () => {
-			summary.querySelectorAll('.round-top, .round-bottom').forEach(el => el.remove());
-		};
-		const sync = () => (sec.open ? addCaps() : removeCaps());
-
-		sync();
-		sec.addEventListener('toggle', sync);
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    item.classList.toggle('is-open', !expanded);
+  });
 });
-
 
 //Modal
 document.addEventListener("DOMContentLoaded", () => {

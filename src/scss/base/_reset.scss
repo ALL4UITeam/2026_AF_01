@@ -12,7 +12,7 @@
 body {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeSpeed;
-
+    font-family: 'Pretendard';
 }
 
 
@@ -43,6 +43,8 @@ h6 {
 
 button,a{
     cursor: pointer;
+    border-style: none;
+    background-color: transparent;
 }
 /* 7) 애니메이션/스무스 스크롤 접근성 */
 @media (prefers-reduced-motion: reduce) {
