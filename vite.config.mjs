@@ -39,9 +39,9 @@ export default defineConfig(({ mode }) => {
   return {
     root: 'src',
     base: basePath,
-    publicDir: '../public',
+    publicDir: 'public',
     build: {
-      outDir: '../dist',
+      outDir: 'dist',
       emptyOutDir: true,
       assetsInlineLimit: 0,
       cssCodeSplit: true,
