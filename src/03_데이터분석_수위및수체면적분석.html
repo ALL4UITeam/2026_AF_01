@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>화산 모니터링 시스템</title>
+    {{> meta}}
+</head>
+
+<body>
+
+    <div class="app">
+        {{> header}}
+        <div class="app-body">
+            {{> nav}}
+            <main class="app-main" >
+                <div class="page">
+                    <header class="page__head">
+                        <h2 class="page__title">수위 및 수체면적 분석</h2>
+                        <p class="page__txt">전처리 된 데이터로 화산의 수위 및 수체면적을 탐지하고 분석합니다.</p>
+                    </header>
+
+                    <div class="filter-bar">
+                        <div class="filter-bar__group">
+                    
+                            <div class="filter-bar__field">
+                                <select>
+                                    <option>백두산</option>
+                                </select>
+                            </div>
+                    
+                            <div class="filter-bar__field">
+                                <i class="ico ico-calendar"></i>
+                                <input type="text" class="date-picker" placeholder="시작일">
+                            </div>
+                    
+                            <div class="filter-bar__field">
+                                <i class="ico ico-calendar"></i>
+                                <input type="text" class="date-picker"  placeholder="종료일">
+                            </div>
+                    
+                        </div>
+                    
+                        <button class="filter-bar__search"><i class="ico"></i>검색</button>
+                    </div>
+
+                    <div class="dashboard">
+                        <div class="main__card">
+                            <section class="card card--md col01">
+                                <header class="card__head">
+                                    <h3 class="card__title">위성영상 현황</h3>
+                                    <button class="card__more" type="button" aria-label="더보기"><i class="ico ico-more"></i></button>
+                                </header>
+                                <div class="card__body">
+                                    <div class="placeholder">
+                                        <div class="info">
+                                            <i class="icon no-data"></i>
+                                            <p>데이터가 없습니다</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>    
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+</body>

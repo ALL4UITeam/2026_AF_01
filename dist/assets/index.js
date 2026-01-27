@@ -150,3 +150,8 @@ listheads.forEach((head, i) => {
     row.style.gridTemplateColumns = gridTemplate;
   });
 });
+$(".date-picker").datetimepicker({
+  format: "Y-m-d",
+  timepicker: false,
+  lang: "ko"
+});

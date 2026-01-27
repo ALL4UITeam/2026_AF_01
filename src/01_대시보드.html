@@ -14,69 +14,275 @@
         {{> header}}
         <div class="app-body">
             {{> nav}}
-            <section class="dashboard-card">
-                <main class="app-main" >
-                    <div class="page">
-                        <header class="page__head">
-                            <h2 class="page__title">대시보드</h2>
-                        </header>
+            <main class="app-main" >
+                <div class="page">
+                    <header class="page__head">
+                        <h2 class="page__title">대시보드</h2>
+                    </header>
 
-                        <section class="dashboard">
-                            <div class="dashboard__grid">
-                                <section class="card card--lg">
-                                    <header class="card__head">
-                                        <h3 class="card__title">위성영상 현황</h3>
-                                        <button class="card__more" type="button" aria-label="더보기"></button>
-                                    </header>
-                                    <div class="card__body">
-                                        <div class="placeholder">콘텐츠 영역</div>
+                    <div id="Dashboard"  class="dashboard">
+                        <div class="main__card">
+                            <section class="card card--md col01">
+                                <header class="card__head">
+                                    <h3 class="card__title">위성영상 현황</h3>
+                                    <button class="card__more" type="button" aria-label="더보기"><i class="ico ico-more"></i></button>
+                                </header>
+                                <div class="card__body">
+                                    <div class="placeholder">
+                                        <div class="info">
+                                            <i class="icon no-data"></i>
+                                            <p>데이터가 없습니다</p>
+                                        </div>
                                     </div>
-                                </section>
+                                </div>
+                            </section>
 
-                                <section class="card card--side">
-                                    <header class="card__head">
-                                        <h3 class="card__title">활동 현황</h3>
-                                        <button class="card__more" type="button" aria-label="더보기"></button>
-                                    </header>
-                                    <div class="card__body">
-                                        <div class="placeholder placeholder--short">콘텐츠 영역</div>
+                            <section class="card card--sm col02">
+                                <header class="card__head">
+                                    <h3 class="card__title">활동 현황</h3>
+                                    <button class="card__more" type="button" aria-label="더보기"><i class="ico ico-more"></i></button>
+                                </header>
+                                <div class="card__body">
+                                    <ul class="kpi">
+                                        <li class="kpi__item kpi__item--all">
+                                            <div class="kpi__icon"><i class="ico"></i></div>
+                                            <div class="kpi__text">
+                                                <span class="kpi__label">전체</span>
+                                                <strong class="kpi__value">13<span>건</span></strong>
+                                            </div>
+                                        </li>
+                                    
+                                        <li class="kpi__item kpi__item--danger">
+                                            <div class="kpi__icon"><i class="ico"></i></div>
+                                            <div class="kpi__text">
+                                                <span class="kpi__label">불안정</span>
+                                                <strong class="kpi__value">1<span>건</span></strong>
+                                            </div>
+                                        </li>
+                                    
+                                        <li class="kpi__item kpi__item--warn">
+                                            <div class="kpi__icon"><i class="ico"></i></div>
+                                            <div class="kpi__text">
+                                                <span class="kpi__label">보통</span>
+                                                <strong class="kpi__value">4<span>건</span></strong>
+                                            </div>
+                                        </li>
+                                    
+                                        <li class="kpi__item kpi__item--info">
+                                            <div class="kpi__icon"><i class="ico"></i></div>
+                                            <div class="kpi__text">
+                                                <span class="kpi__label">정보</span>
+                                                <strong class="kpi__value">8<span>건</span></strong>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+                            
+                            
+                            <section class="card card--md col03">
+                                <header class="card__head">
+                                    <h3 class="card__title">위성영상 수집 추이</h3>
+                                    <button class="card__more" type="button" aria-label="더보기"><i class="ico ico-more"></i></button>
+                                </header>
+                                <div class="card__body">
+                                    <div class="placeholder">
+                                        <div class="info">
+                                            <i class="icon data-sel"></i>
+                                            <p>데이터를 선택해주세요</p>
+                                        </div>
                                     </div>
-                                </section>
+                                </div>
+                            </section>
 
-                                <section class="card card--lg">
-                                    <header class="card__head">
-                                        <h3 class="card__title">위성영상 수집 추이</h3>
-                                        <button class="card__more" type="button" aria-label="더보기"></button>
-                                    </header>
-                                    <div class="card__body">
-                                        <div class="placeholder">콘텐츠 영역</div>
-                                    </div>
-                                </section>
+                            <section class="card card--lg col04">
+                                <header class="card__head">
+                                    <h3 class="card__title">최근활동</h3>
+                                    <button class="card__more" type="button" aria-label="새로고침"><i class="ico ico-refresh"></i></button>
+                                </header>
+                                <div class="card__body">
+                                    <ul class="activity-list" style="max-height: 718px;">
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--safe">안정</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
+                                    
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--warn">보통</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
 
-                                <section class="card card--side">
-                                    <header class="card__head">
-                                        <h3 class="card__title">최근활동</h3>
-                                        <button class="card__more" type="button" aria-label="더보기"></button>
-                                    </header>
-                                    <div class="card__body">
-                                        <div class="placeholder placeholder--tall">리스트 영역</div>
-                                    </div>
-                                </section>
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--danger">불안정</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
 
-                                <section class="card card--full">
-                                    <header class="card__head">
-                                        <h3 class="card__title">보고서 현황</h3>
-                                        <button class="card__more" type="button" aria-label="더보기"></button>
-                                    </header>
-                                    <div class="card__body">
-                                        <div class="placeholder placeholder--short">하단 요약 영역</div>
-                                    </div>
-                                </section>
-                            </div>
-                        </section>
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--none">없음</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
+
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--info">정보</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--safe">안정</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
+                                    
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--warn">보통</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
+
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--danger">불안정</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
+
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--none">없음</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
+
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--info">정보</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--safe">안정</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
+                                    
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--warn">보통</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
+
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--danger">불안정</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
+
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--none">없음</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
+
+                                        <li class="activity-item">
+                                            <span class="activity-item__badge badge badge--info">정보</span>
+                                            <div class="activity-item__content">
+                                                <p class="activity-item__title">백두산 수위 급상승 감지</p>
+                                                <span class="activity-item__meta">백두산</span>
+                                            </div>
+                                            <time class="activity-item__time">2시간 전</time>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+
+                            <section class="card card--sm col05">
+                                <header class="card__head">
+                                    <h3 class="card__title">보고서 현황</h3>
+                                    <button class="card__more" type="button" aria-label="더보기"><i class="ico ico-more"></i></button></button>
+                                </header>
+                                <div class="card__body">
+                                    <ul class="report-stat">
+                                        <li class="report-stat__item">
+                                            <div class="report-stat__icon blue"><i class="ico ico-chart-up"></i></div>
+                                            <div class="report-stat__text">
+                                                <span class="report-stat__label">전체</span>
+                                                <strong class="report-stat__value blue">13<span>건</span></strong>
+                                            </div>
+                                        </li>
+                                
+                                        <li class="report-stat__item">
+                                            <div class="report-stat__icon"><i class="ico ico-bar"></i></div>
+                                            <div class="report-stat__text">
+                                                <span class="report-stat__label">분기</span>
+                                                <strong class="report-stat__value">3<span>건</span></strong>
+                                            </div>
+                                        </li>
+                                
+                                        <li class="report-stat__item">
+                                            <div class="report-stat__icon"><i class="ico ico-pie"></i></div>
+                                            <div class="report-stat__text">
+                                                <span class="report-stat__label">반기</span>
+                                                <strong class="report-stat__value">3<span>건</span></strong>
+                                            </div>
+                                        </li>
+                                
+                                        <li class="report-stat__item">
+                                            <div class="report-stat__icon"><i class="ico ico-calendar"></i></div>
+                                            <div class="report-stat__text">
+                                                <span class="report-stat__label">연간</span>
+                                                <strong class="report-stat__value">4<span>건</span></strong>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+                        </div>
                     </div>
-                </main>
-            </section>
+                </div>
+            </main>
         </div>
     </div>
 

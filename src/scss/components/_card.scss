@@ -1,0 +1,160 @@
+@use '../abstracts' as *;
+
+.app-body {
+    position: relative;
+    display: grid;
+    grid-template-columns: $nav-w 1fr;
+    height: auto;
+    gap: 16px;
+    padding: 0 16px 16px;
+}
+
+// ====== main ======
+.app-main {
+    @include glass(0.60);
+    padding: 30px;
+}
+
+.page__head {
+    padding: 20px 0;
+    color:#222222;
+}
+
+.page__title {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+    font-weight: 600;
+}
+.page__txt {
+    margin: 0;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    font-size: 15px;
+    letter-spacing: -0.4px;
+}
+
+.main__card {
+    display: grid;
+    gap: 30px;
+    // ====== cards ======
+    .card {
+        @include glass(0.92);
+        border-radius: $radius-sm;
+        overflow: hidden;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        &__head {
+            padding-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(225, 229, 236, 1);
+            line-height: 1;
+        }
+
+        &__title {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+
+        &__more {
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            background:#e9ebef;
+            cursor: pointer;
+            transition: background .2s ease, transform .15s ease, box-shadow .2s ease;
+            .ico{
+                background-position: center;
+                transition: background .2s ease, transform .3s ease, box-shadow .2s ease;
+            }
+            &:hover{
+                background: #dfe3ea;
+                box-shadow: 0 2px 6px rgba(0,0,0,.08);
+                
+                .ico{
+                    transform: rotate(90deg);
+                }
+            }
+            &:active{
+                transform: scale(0.92);
+                box-shadow: none;
+            }
+        }
+
+        &__body {
+            flex: 1;
+            min-height: 0;  
+            overflow: auto;
+            padding-top: 20px;
+        }
+    }
+
+    .card--lg{ 
+        .card__body {
+            min-height: 400px;
+        }
+    }
+    // chart는 무조건 .card--md를 사용
+    .card--md{ 
+        .card__body {
+            min-height: 300px;
+        }
+    }
+    .card--sm{ 
+        .card__body {
+            min-height: 80px;
+        }
+    }
+    
+}
+
+// ====== placeholders (내용 대신 레이아웃만) ======
+.placeholder {
+    height: 100%;
+    min-height: 200px;
+    border-radius: 10px;
+    background: #f6f6f6;
+    display: grid;
+    place-items: center;
+    color: $muted;
+    font-weight: 700;
+    font-size: 17px;
+    color: #888888;
+    font-weight: normal;
+    gap:5px;
+    &--short {
+        min-height: 110px;
+    }
+
+    &--tall {
+        min-height: 420px;
+    }
+    .info{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap:10px;
+        p{
+            font-weight: 500;
+            font-size: 17px;
+            color: #888888;
+        }    
+    }
+    .no-data{
+        @include icon(65px);
+        height: 75px;
+        background-image: url('@/assets/images/dash/no-data.png');
+    }
+    .data-sel{
+        @include icon(78px);
+        height: 70px;
+        background-image: url('@/assets/images/dash/data-select.png');
+    }
+}
+
