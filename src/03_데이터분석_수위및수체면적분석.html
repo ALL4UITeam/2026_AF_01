@@ -47,25 +47,202 @@
 
                     <div class="dashboard">
                         <div class="main__card">
-                            <section class="card card--md col01">
-                                <header class="card__head">
-                                    <h3 class="card__title">위성영상 현황</h3>
-                                    <button class="card__more" type="button" aria-label="더보기"><i class="ico ico-more"></i></button>
-                                </header>
-                                <div class="card__body">
-                                    <div class="placeholder">
-                                        <div class="info">
-                                            <i class="icon no-data"></i>
-                                            <p>데이터가 없습니다</p>
+                            <div class="column-line">
+                                <section class="card card--lg col01">
+                                    <header class="card__head">
+                                        <h3 class="card__title">전처리 데이터 목록</h3>
+                                    </header>
+                                    <div class="card__body">
+                                        <div id="file-tree"></div>
+                                    </div>
+                                </section>
+                                <section class="card card--lg col01">
+                                    <header class="card__head">
+                                        <h3 class="card__title">분석할 데이터 목록</h3>
+                                    </header>
+                                    <div class="card__body">
+                                        <div class="placeholder">
+                                            <div class="info">
+                                                <i class="icon no-data"></i>
+                                                <p>데이터가 없습니다</p>
+                                            </div>
                                         </div>
                                     </div>
+                                </section>
+                                <section class="card card--lg col01">
+                                    <header class="card__head">
+                                        <h3 class="card__title">전처리 데이터 미리보기</h3>
+                                    </header>
+                                    <div class="card__body">
+                                        <div class="placeholder">
+                                            <div class="info">
+                                                <i class="icon no-data"></i>
+                                                <p>데이터가 없습니다</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="map">
+                                <div>
+                                    <p>지도를 더블클릭하여 마커 추가</p>
                                 </div>
-                            </section>
+                                <div class="map-tool">
+                                    <ul>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                                <div class="compass"></div>
+                                <div class="modla-pop">
+
+                                </div>
+                                <i class="ico map-marker"></i>
+                                <i class="ico map-marker"></i>
+                            </div>
                         </div>    
                     </div>
                 </div>
             </main>
         </div>
     </div>
+    
+    <script>
+        $(document).ready(function () {
+            // jsTree 데이터 구조
+            var treeData = [
+                {
+                    "text": "OUTPUT",
+                    "state": { "opened": true },
+                    "children": [
+                        {
+                            "text": "ALOS-2",
+                            "state": { "opened": false }
+                        },
+                        {
+                            "text": "Landsat-series",
+                            "state": { "opened": false }
+                        },
+                        {
+                            "text": "Sentinel-1",
+                            "state": { "opened": false }
+                        },
+                        {
+                            "text": "Sentinel-2",
+                            "state": { "opened": true },
+                            "children": [
+                                {
+                                    "text": "백두산",
+                                    "state": { "opened": true },
+                                    "children": [
+                                        {
+                                            "text": "20250125",
+                                            "state": { "opened": true, "selected": true },
+                                            "children": [
+                                                {
+                                                    "text": "Sentinel2_백두산_20250125.tif",
+                                                    "icon": "file-icon tif-icon",
+                                                    "type": "file",
+                                                    "state": { "selected": true }
+                                                },
+                                                {
+                                                    "text": "Sentinel2_백두산_20250125.xml",
+                                                    "icon": "file-icon xml-icon",
+                                                    "type": "file",
+                                                    "state": { "selected": true }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "text": "20250719",
+                                            "state": { "opened": false }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "text": "울릉도",
+                                    "state": { "opened": false }
+                                },
+                                {
+                                    "text": "제주도",
+                                    "state": { "opened": false }
+                                }
+                            ]
+                        },
+                        {
+                            "text": "TerraSAR-X",
+                            "state": { "opened": false }
+                        }
+                    ]
+                }
+            ];
 
+            // jsTree 초기화
+            $('#file-tree').jstree({
+                'core': {
+                    'data': treeData,
+                    'themes': {
+                        'name': 'default',
+                        'dots': true,
+                        'icons': true
+                    },
+                    'multiple': true,
+                    'check_callback': true
+                },
+                'types': {
+                    'default': {
+                        'icon': false
+                    },
+                    'file': {
+                        'icon': false
+                    }
+                },
+                'plugins': ['types', 'wholerow']
+            });
+
+            // 트리 로드 완료 후 배지 추가
+            $('#file-tree').on('ready.jstree', function () {
+                var tree = $('#file-tree').jstree(true);
+                
+                // 약간의 지연을 두고 배지 추가 (DOM이 완전히 렌더링된 후)
+                setTimeout(function() {
+                    // 모든 노드를 순회하며 배지 추가
+                    var allNodes = tree.get_json('#', { flat: true });
+                    allNodes.forEach(function(node) {
+                        var nodeElement = tree.get_node(node.id, true);
+                        if (nodeElement && nodeElement.length) {
+                            var $anchor = $(nodeElement).find('.jstree-anchor');
+                            var text = node.text;
+                            
+                            // 이미 처리된 노드는 건너뛰기
+                            if ($anchor.find('.jstree-text').length > 0) {
+                                return;
+                            }
+                            
+                            // 20250125 폴더에 "분석 완료" 배지 추가
+                            if (text === '20250125') {
+                                $anchor.html('<span class="jstree-text">20250125</span><span class="complete-badge">분석 완료</span>');
+                            }
+                            // 파일에 타입 및 크기 배지 추가
+                            else if (text.indexOf('Sentinel2_백두산_20250125.tif') !== -1) {
+                                $anchor.html('<span class="jstree-text">Sentinel2_백두산_20250125.tif</span><span class="file-type-badge">TIF</span><span class="file-size-badge">85.3MB</span>');
+                            } else if (text.indexOf('Sentinel2_백두산_20250125.xml') !== -1) {
+                                $anchor.html('<span class="jstree-text">Sentinel2_백두산_20250125.xml</span><span class="file-type-badge">XML</span><span class="file-size-badge">13.4MB</span>');
+                            } else {
+                                // 배지가 없는 노드는 텍스트만 span으로 감싸기
+                                var currentText = $anchor.text().trim();
+                                if (currentText) {
+                                    $anchor.html('<span class="jstree-text">' + currentText + '</span>');
+                                }
+                            }
+                        }
+                    });
+                }, 100);
+            });
+
+            // 노드 클릭 이벤트
+            $('#file-tree').on('select_node.jstree', function (e, data) {
+                console.log('선택된 노드:', data.node.text);
+            });
+        });
+    </script>
 </body>

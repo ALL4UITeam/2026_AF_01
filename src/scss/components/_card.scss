@@ -90,14 +90,19 @@
         &__body {
             flex: 1;
             min-height: 0;  
-            overflow: auto;
+            overflow: visible;
             padding-top: 20px;
+        }
+        
+        // 트리가 있는 경우 스크롤 제거
+        &__body #file-tree {
+            overflow: visible !important;
         }
     }
 
     .card--lg{ 
         .card__body {
-            min-height: 400px;
+            min-height: 500px;
         }
     }
     // chart는 무조건 .card--md를 사용
@@ -111,7 +116,13 @@
             min-height: 80px;
         }
     }
-    
+    .column-line{
+        display: flex;
+        gap: 30px;
+        .card{
+            flex:1;
+        }
+    }
 }
 
 // ====== placeholders (내용 대신 레이아웃만) ======
@@ -155,6 +166,15 @@
         @include icon(78px);
         height: 70px;
         background-image: url('@/assets/images/dash/data-select.png');
+    }
+}
+
+// ====== responsive ======
+@media (max-width: 1200px) {
+    .main__card {
+        .column-line{
+            flex-direction: column;
+        }
     }
 }
 
