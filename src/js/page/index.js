@@ -1,4 +1,5 @@
 import "/scss/main.scss";
+import '../common/TreeView.js'
 
 // sideNav
 document.querySelectorAll(".side-nav__toggle").forEach((toggle) => {
