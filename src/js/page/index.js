@@ -1,4 +1,4 @@
-import '/scss/main.scss'
+import "/scss/main.scss";
 
 // sideNav
 document.querySelectorAll(".side-nav__toggle").forEach((toggle) => {
@@ -166,10 +166,86 @@ listheads.forEach((head, i) => {
   });
 });
 
-
-$('.date-picker').datetimepicker({
-  format: 'Y-m-d',
+$(".date-picker").datetimepicker({
+  format: "Y-m-d",
   timepicker: false,
-  lang: 'ko'
+  lang: "ko",
 });
 
+$(document).ready(function () {
+  // table-scroll의 헤더와 본문 셀 너비 동기화 (컬럼 수 동적 처리)
+  // table-scroll 클래스가 있어야만 기능이 작동함
+  function syncTableColumnWidths() {
+    $(".table-scroll").each(function () {
+      var $table = $(this);
+      // 기능 클래스 기준으로 찾기
+      var $headerRow = $table.find(".table-header .table-cell__row");
+      var $bodyRows = $table.find(".table-body .table-cell__row");
+
+      if ($headerRow.length === 0 || $bodyRows.length === 0) return;
+
+      // 헤더의 셀 개수를 동적으로 감지
+      var $headerCells = $headerRow.find(".table-cell");
+      var columnCount = $headerCells.length;
+
+      if (columnCount === 0) return;
+
+      // 1단계: 먼저 CSS 변수로 컬럼 수 설정 (초기 렌더링을 위해)
+      $table.css("--column-count", columnCount);
+
+      // 2단계: 잠시 대기 후 실제 너비 측정 (렌더링 완료 후)
+      setTimeout(function () {
+        // 부모 컨테이너의 실제 너비 확인
+        var tableWidth = $table.width();
+        if (tableWidth === 0) return; // 아직 렌더링되지 않음
+
+        // 각 셀의 실제 너비 측정 (getBoundingClientRect 사용)
+        var columnWidths = [];
+        $headerCells.each(function () {
+          var cellWidth = this.getBoundingClientRect().width;
+          columnWidths.push(cellWidth);
+        });
+
+        // 전체 너비가 합리적인 범위인지 확인 (부모 너비의 0.5~2배)
+        var totalWidth = columnWidths.reduce(function (sum, width) {
+          return sum + width;
+        }, 0);
+
+        // 너비가 비정상적으로 크면 부모 너비를 기준으로 재계산
+        if (totalWidth > tableWidth * 2 || totalWidth < tableWidth * 0.5) {
+          // 부모 너비를 컬럼 수로 나눠서 균등 분배
+          var avgWidth = tableWidth / columnCount;
+          columnWidths = [];
+          for (var i = 0; i < columnCount; i++) {
+            columnWidths.push(avgWidth);
+          }
+        }
+
+        // 측정한 너비를 grid-template-columns로 변환
+        var gridTemplateColumns = columnWidths
+          .map(function (width) {
+            return width + "px";
+          })
+          .join(" ");
+
+        // 헤더와 본문의 모든 행에 동일한 grid-template-columns 적용
+        $headerRow.css("grid-template-columns", gridTemplateColumns);
+        $bodyRows.css("grid-template-columns", gridTemplateColumns);
+      }, 50);
+    });
+  }
+
+  // 페이지 로드 시 실행 (약간의 지연을 두어 DOM이 완전히 렌더링된 후)
+  setTimeout(function () {
+    syncTableColumnWidths();
+  }, 200);
+
+  // 윈도우 리사이즈 시에도 동기화
+  var resizeTimer;
+  $(window).on("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      syncTableColumnWidths();
+    }, 150);
+  });
+});

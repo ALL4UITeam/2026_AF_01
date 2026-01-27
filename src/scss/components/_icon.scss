@@ -18,6 +18,10 @@
     @include icon(16px);
     background-image: url('@/assets/images/icon/ico-file.png');
 }
+.ico-analysis{
+    @include icon(18px);
+    background-image: url('@/assets/images/icon/analysis-ico.png');
+}
 .ico-trash{
     @include icon(16px);
     background-image: url("@/assets/images/icon/ico-red-del.png");
