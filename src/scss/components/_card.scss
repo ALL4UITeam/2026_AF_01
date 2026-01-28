@@ -23,9 +23,8 @@
 .page__title {
     margin: 0;
     font-size: 32px;
-    font-weight: 800;
-    letter-spacing: -0.4px;
     font-weight: 600;
+    letter-spacing: -0.4px;
 }
 .page__txt {
     margin: 0;
@@ -46,6 +45,7 @@
         padding: 20px;
         display: flex;
         flex-direction: column;
+        min-width: 0;
         &__head {
             padding-bottom: 20px;
             display: flex;
@@ -60,6 +60,13 @@
             font-size: 20px;
             font-weight: 700;
             letter-spacing: -0.2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            
+            .badge {
+                margin-left: 4px;
+            }
         }
         
         &__actions {
@@ -96,8 +103,32 @@
         &__body {
             flex: 1;
             min-height: 0;  
-            overflow: auto;
+            overflow: visible;
             margin-top: 20px;
+            
+            &--scrollable {
+                overflow-y: auto;
+                overflow-x: hidden;
+                flex: 1;
+                min-height: 0;
+            }
+            .form{
+                padding: 10px 0; 
+            }
+        }
+        
+        &__footer {
+            padding-top: 20px;
+            margin-top: auto;
+            border-top: 1px solid rgba(225, 229, 236, 1);
+            display: flex;
+            justify-content: center;
+            flex-shrink: 0;
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
         
         // 트리가 있는 경우 스크롤 제거
@@ -107,18 +138,72 @@
     }
 
     .card--lg{ 
+        display: flex;
+        flex-direction: column;
+        
+        // 푸터가 있는 카드는 고정 높이
+        &:has(.card__footer) {
+            height: 600px;
+        }
+        
+        // 푸터가 없는 카드는 콘텐츠에 맞게 조정
+        &:not(:has(.card__footer)) {
+            min-height: 600px;
+        }
+        
         .card__body {
-            min-height: 500px;
+            min-height: 0;
+            
             &.fixed-height{
                 max-height: 500px;
                 overflow-y: auto;
             }
+            
+            &--scrollable {
+                min-height: 0;
+                flex: 1;
+                
+                // 스크롤이 필요한 경우에만 max-height 추가
+                &.has-max-height {
+                    max-height: 500px;
+                    overflow-y: auto;
+                }
+            }
         }
-    }
-    // chart는 무조건 .card--md를 사용
+    }   
+    
     .card--md{ 
+        display: flex;
+        flex-direction: column;
+        
+        // 푸터가 있는 카드는 고정 높이
+        &:has(.card__footer) {
+            height: 400px;
+        }
+        
+        // 푸터가 없는 카드는 콘텐츠에 맞게 조정
+        &:not(:has(.card__footer)) {
+            min-height: 400px;
+        }
+        
         .card__body {
-            min-height: 300px;
+            min-height: 0;
+            
+            &.fixed-height{
+                max-height: 300px;
+                overflow-y: auto;
+            }
+            
+            &--scrollable {
+                min-height: 0;
+                flex: 1;
+                
+                // 스크롤이 필요한 경우에만 max-height 추가
+                &.has-max-height {
+                    max-height: 300px;
+                    overflow-y: auto;
+                }
+            }
         }
     }
     .card--sm{ 
@@ -129,13 +214,16 @@
     .column-line{
         display: flex;
         gap: 30px;
+        min-width: 0;
+        
         .card{
-            flex:1;
+            flex: 1;
+            min-width: 0;
         }
     }
 }
 
-// ====== placeholders (내용 대신 레이아웃만) ======
+// ====== placeholders ======
 .placeholder {
     height: 100%;
     min-height: 200px;
@@ -143,12 +231,10 @@
     background: #f6f6f6;
     display: grid;
     place-items: center;
-    color: $muted;
-    font-weight: 700;
-    font-size: 17px;
     color: #888888;
     font-weight: normal;
-    gap:5px;
+    font-size: 17px;
+    gap: 5px;
     &--short {
         min-height: 110px;
     }
@@ -347,7 +433,7 @@
     &__item {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        gap: 8px;
         padding: 20px 10px;
         background: white;
         border-bottom: 1px solid #e5e8ee;
@@ -367,6 +453,28 @@
         min-width: 0;
         
         .ico {
+            flex-shrink: 0;
+        }
+        
+        .data-list__meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+    }
+    
+    &__meta {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        
+        .file-tag {
+            flex-shrink: 0;
+        }
+        
+        .file-size {
             flex-shrink: 0;
         }
     }

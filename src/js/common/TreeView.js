@@ -119,8 +119,10 @@ class TreeView {
       // 상태에 따른 클래스 추가
       if (node.action === '분석 완료') {
         statusTag.classList.add('complete');
-      } else if (node.action === '처리중') {
+      } else if (node.action === '처리중' || node.action === '분석 중') {
         statusTag.classList.add('processing');
+      } else if (node.action === '실패') {
+        statusTag.classList.add('error');
       } else {
         statusTag.classList.add('error');
       }

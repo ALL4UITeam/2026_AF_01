@@ -18,6 +18,10 @@
     @include icon(16px);
     background-image: url('@/assets/images/icon/ico-file.png');
 }
+.ico-sel-file{
+    @include icon(16px);
+    background-image: url('@/assets/images/icon/file-sel-ico.png');
+}
 .ico-analysis{
     @include icon(18px);
     background-image: url('@/assets/images/icon/analysis-ico.png');
@@ -31,15 +35,30 @@
     @include icon(16px);
     background-image: url("@/assets/images/icon/play-ico.png");
 }
-
+.ico-processing{
+    @include icon(17px);
+    background-image: url("@/assets/images/icon/processing-ico.png");  
+}
 // 다운로드 아이콘
 .ico-download {
     @include icon(16px);
     background-image: url("@/assets/images/icon/white-down-ico.png");
 }
 
+.ico-whitedownload {
+    @include icon(16px);
+    background-image: url("@/assets/images/icon/ico-white-download.png");
+}
+
 // 이미지 아이콘
 .ico-image {
     @include icon(16px);
     background-image: url("@/assets/images/icon/blue-img-ico.png");
+}
+
+// 검색 아이콘
+.ico-search {
+    @include icon(16px);
+    background-image: url('@/assets/images/icon/search-ico.png');
+    filter: brightness(200%);
 }

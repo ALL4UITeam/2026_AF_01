@@ -1,4 +1,5 @@
 import "/scss/main.scss";
+import "../common/CustomSelect.js";
 
 // sideNav
 document.querySelectorAll(".side-nav__toggle").forEach((toggle) => {
@@ -11,10 +12,131 @@ document.querySelectorAll(".side-nav__toggle").forEach((toggle) => {
   });
 });
 
-const sideNav = document.querySelector(".side-nav");
+// Nav sticky behavior
+document.addEventListener("DOMContentLoaded", () => {
+  const sideNav = document.querySelector(".side-nav");
+  const sideNavWrap = document.querySelector(".side-nav_wrap");
+  const appHeader = document.querySelector(".app-header");
+  
+  if (!sideNav || !sideNavWrap || !appHeader) {
+    return;
+  }
+  
+  // 헤더의 초기 위치 저장
+  let headerInitialBottom = 0;
+  const initHeaderPosition = () => {
+    const headerRect = appHeader.getBoundingClientRect();
+    headerInitialBottom = headerRect.bottom + window.scrollY;
+  };
+  initHeaderPosition();
+  
+  // 스크롤 위치 기반으로 고정 상태 확인
+  const checkSticky = () => {
+    const scrollY = window.scrollY || window.pageYOffset;
+    const headerRect = appHeader.getBoundingClientRect();
+    const headerBottom = headerRect.bottom;
+    
+    // 헤더가 viewport 상단을 벗어났는지 확인
+    const isStuck = headerBottom <= 20 || scrollY >= (headerInitialBottom - 20);
+    
+    // 클래스 토글
+    sideNav.classList.toggle("is-stuck", isStuck);
+    sideNavWrap.classList.toggle("is-stuck", isStuck);
+  };
+  
+  // 초기 상태 확인
+  checkSticky();
+  
+  // 스크롤 이벤트 (requestAnimationFrame으로 최적화)
+  let ticking = false;
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        checkSticky();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+  
+  // 리사이즈 시 헤더 위치 재계산
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      initHeaderPosition();
+      checkSticky();
+    }, 150);
+  });
+});
 
-window.addEventListener("scroll", () => {
-  sideNav.classList.toggle("is-stuck", window.scrollY > 120);
+// 스크롤 중복 방지 (스크롤 가능한 컨텐츠 영역)
+document.addEventListener("DOMContentLoaded", () => {
+  const handleScrollableWheel = (e) => {
+    const element = e.currentTarget;
+    const { scrollTop, scrollHeight, clientHeight } = element;
+    
+    // 스크롤 가능 여부 확인
+    const isScrollable = scrollHeight > clientHeight;
+    if (!isScrollable) return;
+    
+    // 스크롤 방향 확인
+    const deltaY = e.deltaY || e.wheelDeltaY || 0;
+    const isScrollingDown = deltaY > 0;
+    const isScrollingUp = deltaY < 0;
+    
+    // 위로 스크롤 중이고 맨 위에 있으면 부모로 전파
+    if (isScrollingUp && scrollTop === 0) {
+      return; // 부모로 전파 허용
+    }
+    
+    // 아래로 스크롤 중이고 맨 아래에 있으면 부모로 전파
+    if (isScrollingDown && scrollTop + clientHeight >= scrollHeight - 1) {
+      return; // 부모로 전파 허용
+    }
+    
+    // 그 외의 경우는 전파 차단
+    e.stopPropagation();
+  };
+  
+  // 모든 스크롤 가능한 영역에 이벤트 리스너 추가
+  const scrollableSelectors = [
+    '.card__body--scrollable',
+    '.table-body',
+    '.side-nav__inner',
+    '[data-simplebar]',
+    '.output-section__body',
+    '.analysis-summary'
+  ];
+  
+  scrollableSelectors.forEach(selector => {
+    document.querySelectorAll(selector).forEach(element => {
+      element.addEventListener('wheel', handleScrollableWheel, { passive: false });
+    });
+  });
+  
+  // 동적으로 추가되는 요소를 위한 MutationObserver
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (node.nodeType === 1) { // Element node
+          scrollableSelectors.forEach(selector => {
+            if (node.matches && node.matches(selector)) {
+              node.addEventListener('wheel', handleScrollableWheel, { passive: false });
+            }
+            node.querySelectorAll && node.querySelectorAll(selector).forEach(element => {
+              element.addEventListener('wheel', handleScrollableWheel, { passive: false });
+            });
+          });
+        }
+      });
+    });
+  });
+  
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
 });
 
 //Modal
@@ -29,13 +151,6 @@ document.addEventListener("DOMContentLoaded", () => {
   window.openModal = openModal;
   window.closeModal = closeModal;
 
-  // form 모달이 많아 불편해서 제거
-  // 배경 클릭 시 닫기
-  // document.addEventListener("click", function(e) {
-  //   if (e.target.classList.contains("modal")) {
-  //     e.target.classList.remove("active");
-  //   }
-  // });
 
   // ESC 키로 닫기
   document.addEventListener("keydown", function (e) {
@@ -49,28 +164,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Tab
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".tab--container").forEach(initTabGroup);
-});
+  document.querySelectorAll(".tab--btn__nav").forEach((nav) => {
+    const tabs = nav.querySelectorAll(".tab--item");
+    
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetTab = tab.getAttribute("data-tab");
+        if (!targetTab) return;
 
-function initTabGroup(groupEl) {
-  const tabs = groupEl.querySelectorAll(".tab--item");
-  const panels = groupEl.querySelectorAll(".tab--panel");
+        // 같은 네비게이션의 모든 탭 버튼 비활성화
+        tabs.forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
 
-  groupEl.addEventListener("click", (e) => {
-    const tab = e.target.closest(".tab--item");
-    if (!tab || !groupEl.contains(tab)) return;
+        // 해당 탭 패널 찾기 (id="tab-{targetTab}" 형식)
+        const targetPanel = document.getElementById(`tab-${targetTab}`);
+        if (!targetPanel) {
+          console.warn(`탭 패널을 찾을 수 없습니다: tab-${targetTab}`);
+          return;
+        }
 
-    const targetId = tab.getAttribute("data-tab");
-    if (!targetId) return;
+        // 같은 페이지의 모든 탭 패널 숨기기 (같은 부모 컨테이너 내)
+        const container = nav.closest(".page") || nav.parentElement;
+        if (container) {
+          const panels = container.querySelectorAll(".tab-panel");
+          panels.forEach((panel) => {
+            panel.classList.remove("active");
+          });
+        } else {
+          document.querySelectorAll(".tab-panel").forEach((panel) => {
+            panel.classList.remove("active");
+          });
+        }
 
-    tabs.forEach((t) => t.classList.remove("active"));
-    tab.classList.add("active");
-
-    panels.forEach((panel) => {
-      panel.classList.toggle("active", panel.id === targetId);
+        // 해당 탭 패널 표시
+        targetPanel.classList.add("active");
+      });
     });
   });
-}
+});
 
 // Toggle
 document.addEventListener("DOMContentLoaded", function () {
@@ -92,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-//accordion
+// Accordion
 const accItems = document.querySelectorAll(".acc-item");
 
 accItems.forEach((item) => {
@@ -172,48 +304,106 @@ $(".date-picker").datetimepicker({
   lang: "ko",
 });
 
+// 파일 업로드 기능
+document.addEventListener("DOMContentLoaded", () => {
+  const fileUpload = document.getElementById("file-upload");
+  const fileList = document.getElementById("file-list");
+  
+  if (fileUpload && fileList) {
+    fileUpload.addEventListener("change", (e) => {
+      const files = Array.from(e.target.files);
+      fileList.innerHTML = "";
+      
+      files.forEach((file, index) => {
+        const fileItem = document.createElement("div");
+        fileItem.className = "file-item";
+        
+        const fileSize = (file.size / 1024 / 1024).toFixed(2) + "MB";
+        
+        fileItem.innerHTML = `
+          <div class="file-item__info">
+            <i class="ico ico-file"></i>
+            <span class="file-item__name">${file.name}</span>
+            <span class="file-item__size">${fileSize}</span>
+          </div>
+          <button type="button" class="file-item__remove" data-index="${index}">삭제</button>
+        `;
+        
+        fileList.appendChild(fileItem);
+      });
+      
+      // 삭제 버튼 이벤트
+      fileList.querySelectorAll(".file-item__remove").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const index = parseInt(btn.getAttribute("data-index"));
+          const dt = new DataTransfer();
+          const files = Array.from(fileUpload.files);
+          files.splice(index, 1);
+          
+          files.forEach((file) => dt.items.add(file));
+          fileUpload.files = dt.files;
+          
+          // 파일 목록 다시 렌더링
+          fileUpload.dispatchEvent(new Event("change"));
+        });
+      });
+    });
+    
+    // 드래그 앤 드롭
+    const uploadLabel = fileUpload.nextElementSibling;
+    if (uploadLabel) {
+      ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+        uploadLabel.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        });
+      });
+      
+      uploadLabel.addEventListener("drop", (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          const dt = new DataTransfer();
+          Array.from(files).forEach((file) => dt.items.add(file));
+          fileUpload.files = dt.files;
+          fileUpload.dispatchEvent(new Event("change"));
+        }
+      });
+    }
+  }
+});
+
 $(document).ready(function () {
-  // table-scroll의 헤더와 본문 셀 너비 동기화 (컬럼 수 동적 처리)
-  // table-scroll 클래스가 있어야만 기능이 작동함
+  // table-scroll의 헤더와 본문 셀 너비 동기화
   function syncTableColumnWidths() {
     $(".table-scroll").each(function () {
       var $table = $(this);
-      // 기능 클래스 기준으로 찾기
       var $headerRow = $table.find(".table-header .table-cell__row");
       var $bodyRows = $table.find(".table-body .table-cell__row");
 
       if ($headerRow.length === 0 || $bodyRows.length === 0) return;
 
-      // 헤더의 셀 개수를 동적으로 감지
       var $headerCells = $headerRow.find(".table-cell");
       var columnCount = $headerCells.length;
 
       if (columnCount === 0) return;
 
-      // 1단계: 먼저 CSS 변수로 컬럼 수 설정 (초기 렌더링을 위해)
       $table.css("--column-count", columnCount);
 
-      // 2단계: 잠시 대기 후 실제 너비 측정 (렌더링 완료 후)
       setTimeout(function () {
-        // 부모 컨테이너의 실제 너비 확인
         var tableWidth = $table.width();
-        if (tableWidth === 0) return; // 아직 렌더링되지 않음
+        if (tableWidth === 0) return;
 
-        // 각 셀의 실제 너비 측정 (getBoundingClientRect 사용)
         var columnWidths = [];
         $headerCells.each(function () {
           var cellWidth = this.getBoundingClientRect().width;
           columnWidths.push(cellWidth);
         });
 
-        // 전체 너비가 합리적인 범위인지 확인 (부모 너비의 0.5~2배)
         var totalWidth = columnWidths.reduce(function (sum, width) {
           return sum + width;
         }, 0);
 
-        // 너비가 비정상적으로 크면 부모 너비를 기준으로 재계산
         if (totalWidth > tableWidth * 2 || totalWidth < tableWidth * 0.5) {
-          // 부모 너비를 컬럼 수로 나눠서 균등 분배
           var avgWidth = tableWidth / columnCount;
           columnWidths = [];
           for (var i = 0; i < columnCount; i++) {
@@ -221,26 +411,22 @@ $(document).ready(function () {
           }
         }
 
-        // 측정한 너비를 grid-template-columns로 변환
         var gridTemplateColumns = columnWidths
           .map(function (width) {
             return width + "px";
           })
           .join(" ");
 
-        // 헤더와 본문의 모든 행에 동일한 grid-template-columns 적용
         $headerRow.css("grid-template-columns", gridTemplateColumns);
         $bodyRows.css("grid-template-columns", gridTemplateColumns);
       }, 50);
     });
   }
 
-  // 페이지 로드 시 실행 (약간의 지연을 두어 DOM이 완전히 렌더링된 후)
   setTimeout(function () {
     syncTableColumnWidths();
   }, 200);
 
-  // 윈도우 리사이즈 시에도 동기화
   var resizeTimer;
   $(window).on("resize", function () {
     clearTimeout(resizeTimer);

@@ -6,6 +6,11 @@
     top: 20px;
     align-self: start;
     height: calc(100vh - #{$header-h} - 60px);
+    transition: top 0.3s ease;
+    
+    &.is-stuck {
+        top: 20px;
+    }
 }
 
 .side-nav {
@@ -17,7 +22,8 @@
     background-image: url('@/assets/images/common/nav/bg.png');
     background-position: 0 bottom;
     background-repeat: no-repeat;
-    transition: all 0.3s;
+    transition: height 0.3s ease;
+    
     &.is-stuck{
         height: calc(100vh - 40px);
     }
