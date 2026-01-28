@@ -219,7 +219,5 @@ class TreeView {
   }
 }
 
-// ES6 모듈로 사용하는 경우
-// export default TreeView;
 
 export default TreeView;
